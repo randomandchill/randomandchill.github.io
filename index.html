@@ -1673,6 +1673,219 @@ body[data-font-mode="neon"] .pov-remote{box-shadow:7px 12px 18px rgba(0,0,0,.5),
 .tv-power-flash{animation-delay:8.93s;}
 .tv-unit{animation-delay:9.72s;}
 body.replaying-intro .tv-unit{animation-delay:9.72s;}
+
+/* ==========================================================================
+   RESPONSIVE 2026 — escena, POV, tele, mando y overlays
+   ========================================================================== */
+html{
+  min-width:320px;
+  min-height:100%;
+  background:#07060d;
+  -webkit-text-size-adjust:100%;
+}
+body{
+  width:100%;
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+.intro-scene,
+.intro-perspective{
+  width:100%;
+  height:100dvh;
+  min-height:100%;
+}
+.intro-room{
+  background-position:center center;
+}
+.tv-unit{
+  width:min(100%,1180px);
+  min-height:100dvh;
+  box-sizing:border-box;
+}
+.tv-frame,
+.remote,
+.settings-box,
+.saved-item,
+.vhs-stage{
+  min-width:0;
+}
+.tv-frame{
+  width:100%;
+}
+.tv-screen{
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+}
+img,svg{
+  max-width:100%;
+}
+
+/* Portátil y tablet horizontal: tele y mando permanecen juntos sin salirse. */
+@media (min-width:761px) and (max-width:1180px){
+  .tv-unit{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(240px,27vw);
+    align-items:start;
+    gap:clamp(14px,2vw,24px);
+    padding:clamp(44px,7vh,72px) clamp(14px,2.5vw,30px) 60px;
+  }
+  .tv-frame{max-width:none;}
+  .remote{width:100%;max-width:300px;justify-self:center;}
+  .intro-tv-set{width:clamp(190px,25vmin,310px);}
+}
+
+/* Móvil y tablet vertical: composición de una columna, sin recortes laterales. */
+@media (max-width:760px){
+  .room-scene{
+    display:block;
+    opacity:min(var(--room-opacity,.6),.34);
+  }
+  .intro-room{
+    inset:-5%;
+    background-size:cover;
+    background-position:center center;
+    transform-origin:center 52%;
+  }
+  .intro-tv-set{
+    bottom:35%;
+    width:clamp(156px,45vw,260px);
+  }
+  .intro-tv-glow{
+    bottom:38%;
+    width:50vw;
+    height:17vh;
+  }
+  .pov-knees{
+    width:min(96vw,620px);
+    height:29%;
+  }
+  .pov-arm{
+    right:-10%;
+    bottom:-1%;
+    width:min(76vw,540px);
+    height:34vh;
+    background-position:right bottom;
+  }
+  .tv-unit{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    gap:18px;
+    padding:34px clamp(8px,3vw,18px) max(42px,env(safe-area-inset-bottom));
+  }
+  .tv-frame,
+  .remote{
+    width:100%;
+    max-width:680px;
+    justify-self:center;
+    flex:none;
+  }
+  .tv-frame{
+    margin-top:0;
+    padding:clamp(20px,4.5vw,34px) clamp(12px,3.5vw,24px) clamp(22px,5vw,36px);
+  }
+  .tv-screen{
+    max-height:none;
+    overflow:visible;
+  }
+  .remote{
+    padding:18px clamp(14px,4vw,22px) 24px;
+    border-radius:24px 24px 32px 32px;
+  }
+  .wrap{padding:clamp(14px,4vw,24px);}
+  .settings-overlay{padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom));}
+  .settings-box{max-height:calc(100dvh - 20px);padding:18px 16px 22px;}
+  #saved-overlay .settings-box{padding:18px 14px 22px;}
+  .saved-list{max-height:calc(100dvh - 120px);}
+}
+
+/* Teléfonos verticales: la tele POV gana presencia y los controles son táctiles. */
+@media (max-width:520px) and (orientation:portrait){
+  .intro-room{
+    inset:-7% -32%;
+    background-size:auto 100%;
+  }
+  .intro-tv-set{
+    bottom:36.5%;
+    width:clamp(164px,49vw,220px);
+  }
+  .intro-tv-glow{
+    bottom:39%;
+    width:56vw;
+    height:15vh;
+  }
+  .pov-arm{
+    right:-15%;
+    width:86vw;
+    height:32vh;
+  }
+  .pov-knees{width:104vw;height:27%;}
+  .tv-unit{padding-top:24px;gap:14px;}
+  .tv-frame{
+    border-radius:18px;
+    padding:19px 9px 20px;
+  }
+  .tv-screen-bezel{padding:7px;border-radius:13px;}
+  .tv-screen,.tv-glass,.tv-off-overlay{border-radius:9px;}
+  .tv-glass,.tv-off-overlay{inset:7px;}
+  .tv-brand{top:6px;font-size:8px;}
+  .tv-power-led{right:13px;bottom:7px;width:7px;height:7px;}
+  .tv-stand{width:68px;height:13px;}
+  .logo{font-size:clamp(22px,7vw,30px);}
+  .header{margin-bottom:16px;}
+  .remote .chip{min-height:40px;padding:9px 10px;}
+  .keypad{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .keypad-btn{aspect-ratio:auto;min-height:64px;}
+  .remote-actions{position:sticky;bottom:8px;z-index:20;}
+  .saved-item{align-items:flex-start;gap:10px;padding:10px;}
+  .saved-item img{width:62px;height:93px;}
+  .saved-item-title{font-size:14px;padding-right:20px;}
+}
+
+/* Móvil horizontal y pantallas bajas: prioriza altura útil y evita zoom vertical. */
+@media (max-height:560px) and (orientation:landscape){
+  .intro-room{
+    inset:-8% 0;
+    background-size:cover;
+  }
+  .intro-tv-set{
+    bottom:30%;
+    width:clamp(150px,27vmin,220px);
+  }
+  .intro-tv-glow{bottom:33%;height:22vh;}
+  .pov-knees{height:25%;width:62vw;}
+  .pov-arm{right:-2%;width:47vw;height:43vh;}
+  .tv-unit{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(220px,34vw);
+    gap:12px;
+    padding:24px 12px 34px;
+  }
+  .tv-frame{padding:20px 14px 22px;}
+  .remote{width:100%;max-width:none;padding:14px 12px 18px;}
+  .wrap{padding:12px 10px 16px;}
+  .header{margin-bottom:12px;}
+  .logo{font-size:22px;}
+  .keypad{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .keypad-btn{min-height:54px;}
+  .settings-box{max-height:calc(100dvh - 16px);}
+}
+
+/* Monitores muy anchos: limita la escena para no agrandar en exceso la interfaz. */
+@media (min-width:1440px){
+  .tv-unit{max-width:1320px;gap:34px;padding-top:clamp(68px,8vh,110px);}
+  .tv-frame{max-width:920px;}
+  .remote{flex-basis:292px;max-width:310px;}
+  .intro-tv-set{width:clamp(260px,22vmin,390px);}
+}
+
+/* Áreas seguras de móviles con notch y botones del sistema. */
+@supports (padding:max(0px)){
+  .tv-unit{
+    padding-left:max(clamp(8px,2vw,20px),env(safe-area-inset-left));
+    padding-right:max(clamp(8px,2vw,20px),env(safe-area-inset-right));
+  }
+}
 </style>
 </head>
 <body>
