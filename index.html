@@ -714,6 +714,12 @@ body::after{
 }
 .save-btn:hover{border-color:var(--gold);color:var(--gold);}
 .save-btn.saved{color:var(--gold);background:rgba(255,47,146,0.2);border-color:var(--gold);}
+.close-btn{
+  position:absolute;top:-8px;left:-8px;width:26px;height:26px;border-radius:50%;
+  background:rgba(5,3,8,0.75);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:11px;
+  cursor:pointer;z-index:5;transition:all .15s ease;
+}
+.close-btn:hover{border-color:var(--cherry);color:var(--cherry);}
 .vhs-stage.visible{display:flex;}
 .vhs-box{width:220px;perspective:1200px;position:relative;}
 .vhs-box-inner{
@@ -1005,6 +1011,7 @@ body::after{
                     <div class="vhs-face back" id="vhs-back"></div>
                   </div>
                   <button class="save-btn" id="save-btn" onclick="toggleSaveCurrent()" title="Guardar para luego">&#9825;</button>
+                  <button class="close-btn" onclick="clearResult()" title="Volver al inicio">&#10005;</button>
                 </div>
               </div>
               <div class="result-empty" id="empty-msg" data-i18n="empty_initial">Elige tus plataformas y un género, y dale al play.</div>
@@ -1012,7 +1019,7 @@ body::after{
           </div>
 
           <div class="footnote" data-i18n="footnote">Datos de disponibilidad proporcionados por JustWatch a través de la API de TMDB.<br>Este producto usa la API de TMDB pero no está respaldado ni certificado por TMDB.</div>
-          <div class="build-tag">Version 1.0</div>
+          <div class="build-tag">Version 1.1</div>
         </div>
       </div>
       <div class="tv-glass"></div>
@@ -1342,6 +1349,16 @@ function updateSaveButton(){
   btn.innerHTML = saved ? '&#9829;' : '&#9825;';
   updateSavedCount();
 }
+function clearResult(){
+  playClick();
+  document.getElementById('vhs-stage').classList.remove('visible');
+  document.getElementById('vhs-box').classList.remove('flipped', 'landing');
+  const emptyMsg = document.getElementById('empty-msg');
+  emptyMsg.textContent = t('empty_initial');
+  emptyMsg.style.display = 'block';
+  currentRevealed = null;
+}
+
 function toggleSaveCurrent(){
   if(!currentRevealed) return;
   playClick();
