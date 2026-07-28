@@ -163,6 +163,16 @@ body::after{
   content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);
   width:26px;height:3px;border-radius:2px;background:rgba(0,0,0,0.35);
 }
+.remote::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:55%;border-radius:0 0 40px 40px;
+  background:repeating-linear-gradient(155deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 5px);
+  pointer-events:none;
+}
+.remote-ir{
+  position:absolute;top:6px;right:22px;width:10px;height:6px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #2a2f24, #050603);
+  box-shadow:inset 0 0 2px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.03);
+}
 .remote-brand{
   text-align:center;font-family:var(--font-body);font-size:9.5px;letter-spacing:.18em;color:#8a9080;
   margin:6px 0 14px;
@@ -216,12 +226,25 @@ body::after{
 }
 .remote-menu-btn:hover{color:var(--gold);}
 .remote-menu-btn:active{box-shadow:none;transform:translateY(2px);}
-.remote-section{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.remote-section{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,0.4);box-shadow:0 1px 0 rgba(255,255,255,0.06);}
 .remote-section:last-of-type{border-bottom:none;}
 .remote-label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#a3a897;font-weight:700;margin-bottom:9px;font-family:var(--font-body);}
 .remote-label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:6px;}
 .remote-label-row .remote-label{margin-bottom:0;}
 .remote .chip-row, .remote .type-row, .remote .aisle-row{display:flex;flex-wrap:wrap;gap:6px;}
+.keypad{display:grid;grid-template-columns:repeat(3, 1fr);gap:7px;}
+.keypad-btn{
+  aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  border-radius:9px;background:linear-gradient(155deg,#464d3d,#2c3126);border:1px solid #1c1f19;
+  box-shadow:0 3px 0 #14160f, inset 0 1px 0 rgba(255,255,255,0.12);cursor:pointer;
+  color:#d3d5c9;transition:all .08s ease;position:relative;
+}
+.keypad-btn:active{box-shadow:0 1px 0 #14160f;transform:translateY(2px);}
+.keypad-btn.active{background:var(--gold);border-color:var(--gold-dim);color:#1a0612;box-shadow:0 3px 0 var(--gold-dim), 0 0 10px rgba(255,47,146,0.5);}
+.keypad-num{position:absolute;top:4px;left:6px;font-size:9px;font-weight:700;color:var(--gold);font-family:var(--font-body);}
+.keypad-btn.active .keypad-num{color:#1a0612;}
+.keypad-btn img{width:20px;height:20px;border-radius:4px;margin-top:6px;}
+.keypad-label{font-size:9px;font-weight:700;letter-spacing:.01em;text-align:center;line-height:1.1;padding:0 3px;}
 .remote .chip{
   border-radius:8px;background:linear-gradient(155deg,#464d3d,#2c3126);border:1px solid #1c1f19;color:#d3d5c9;
   box-shadow:0 3px 0 #14160f, inset 0 1px 0 rgba(255,255,255,0.12);
@@ -232,8 +255,6 @@ body::after{
 .remote .chip.active.type-chip{background:#3c4136;color:var(--cherry);border-color:var(--cherry-dim);box-shadow:0 3px 0 #14160f, 0 0 8px rgba(46,230,214,0.4);}
 .remote .chip.excluded{opacity:.35;text-decoration:line-through;}
 .remote .chip img{width:14px;height:14px;}
-.chip-num{font-weight:700;color:var(--gold);}
-.remote .chip.active .chip-num{color:#1a0612;}
 .remote .clear-filters-btn{color:#8a8f7e;}
 .remote .clear-filters-btn:hover{color:var(--gold);}
 .remote .aisle-hint{color:#7c8172;margin:0 0 8px;}
@@ -378,9 +399,9 @@ body::after{
 .static-flash.active{opacity:.9;animation:static-out .4s ease forwards;}
 @keyframes static-out{0%{opacity:.9;}100%{opacity:0;}}
 .rental-sticker{
-  position:absolute;bottom:8px;right:8px;background:#ffe14d;color:#3a2a00;
-  font-size:8px;font-weight:700;padding:3px 6px;border-radius:2px;transform:rotate(-7deg);
-  box-shadow:0 2px 5px rgba(0,0,0,0.45);font-family:var(--font-body);letter-spacing:.02em;
+  position:absolute;bottom:10px;right:10px;background:#ffe14d;color:#3a2a00;
+  font-size:11px;font-weight:700;padding:5px 9px;border-radius:3px;transform:rotate(-7deg);
+  box-shadow:0 3px 6px rgba(0,0,0,0.5);font-family:var(--font-body);letter-spacing:.02em;white-space:nowrap;
 }
 
 /* La estantería: una fila de lomos/carátulas que puedes "recorrer" */
@@ -461,10 +482,34 @@ body::after{
 .btn-ghost:hover{color:var(--gold);border-color:var(--gold);}
 
 .footnote{text-align:center;color:var(--muted);font-size:10px;margin-top:26px;opacity:.55;font-family:var(--font-body);}
+.build-tag{text-align:center;color:var(--gold);font-size:9px;margin-top:8px;opacity:.7;font-family:var(--font-body);letter-spacing:.04em;}
 .footnote a{color:var(--cherry);}
 
-@media (max-width:520px){
-  .vhs-box{width:200px;}
+@media (max-width:600px){
+  .vhs-box{width:190px;}
+}
+@media (max-width:480px){
+  .tv-unit{padding:34px 10px 60px;gap:18px;}
+  .tv-antenna{display:none;}
+  .tv-screw{display:none;}
+  .tv-grille{display:none;}
+  .tv-knob{display:none;}
+  .tv-frame{padding:20px 12px 20px;border-radius:20px;}
+  .tv-brand{font-size:9px;top:8px;}
+  .tv-power-led{bottom:8px;right:16px;}
+  .tv-screen-bezel{padding:8px;border-radius:16px;}
+  .tv-screen{border-radius:12px;}
+  .tv-glass{inset:8px;border-radius:12px;}
+  .tv-off-overlay{inset:8px;border-radius:12px;}
+  .tv-stand{width:80px;height:16px;}
+  .wrap{padding:16px 12px 20px;}
+  .header{margin-bottom:18px;}
+  .logo{font-size:24px;}
+  .vhs-box{width:150px;}
+  .vhs-face.back{padding:12px;}
+  .result-title{font-size:13px;}
+  .rental-sticker{font-size:9px;padding:4px 7px;bottom:8px;right:8px;}
+  .remote{padding:16px 12px 18px;}
 }
 </style>
 </head>
@@ -489,7 +534,7 @@ body::after{
         <div class="wrap">
           <div class="header">
             <div class="logo">RANDOM &amp; CHILL</div>
-            <div class="tagline">Recorre el pasillo. Coge una caja al azar.</div>
+            <div class="tagline">Sintoniza un género. Dale al play. A ver qué toca.</div>
           </div>
 
           <div class="stage">
@@ -497,7 +542,7 @@ body::after{
             <div class="stage-rec"><span class="dot"></span>REC</div>
             <div class="screen">
               <div class="static-flash" id="static-flash"></div>
-              <div class="aisle-label" id="aisle-label" data-i18n="aisle_label_initial">Pasillo: elige uno arriba</div>
+              <div class="aisle-label" id="aisle-label" data-i18n="aisle_label_initial">Género: elige uno arriba</div>
               <div class="shelf" id="shelf"></div>
               <div class="vhs-stage" id="vhs-stage">
                 <div class="vhs-box" id="vhs-box">
@@ -507,11 +552,12 @@ body::after{
                   </div>
                 </div>
               </div>
-              <div class="result-empty" id="empty-msg" data-i18n="empty_initial">Elige tus plataformas y tu pasillo, y dale al play.</div>
+              <div class="result-empty" id="empty-msg" data-i18n="empty_initial">Elige tus plataformas y un género, y dale al play.</div>
             </div>
           </div>
 
           <div class="footnote" data-i18n="footnote">Datos de disponibilidad proporcionados por JustWatch a través de la API de TMDB.<br>Este producto usa la API de TMDB pero no está respaldado ni certificado por TMDB.</div>
+          <div class="build-tag">build: 2026-07-28-rev9 &middot; PLAY 62px circle</div>
         </div>
       </div>
       <div class="tv-glass"></div>
@@ -523,6 +569,7 @@ body::after{
   </div>
 
   <div class="remote">
+    <div class="remote-ir"></div>
     <div class="remote-brand">UNIVERSAL &middot; VIDEOCLUB</div>
     <div class="remote-top">
       <button class="remote-power-btn" id="power-btn" onclick="togglePower()" title="Encender/Apagar">&#9211;</button>
@@ -560,7 +607,7 @@ body::after{
         <div class="remote-label" data-i18n="panel_search">Qué buscar</div>
         <button class="clear-filters-btn" data-i18n="clear_filters" onclick="clearFilters()">Limpiar filtros</button>
       </div>
-      <div class="aisle-hint" data-i18n="aisle_hint">Toca un pasillo para excluirlo (puedes marcar varios):</div>
+      <div class="aisle-hint" data-i18n="aisle_hint">Toca un género para excluirlo (puedes marcar varios):</div>
       <div class="aisle-row" id="aisle-chips"></div>
     </div>
 
@@ -611,13 +658,13 @@ const I18N = {
     panel_platforms:'Mis plataformas', loading_platforms:'Cargando plataformas...',
     panel_search:'Qué buscar', clear_filters:'Limpiar filtros', type_label:'Tipo',
     type_movie:'Película', type_tv:'Serie', type_any:'Cualquiera',
-    aisle_hint:'Toca un pasillo para excluirlo (puedes marcar varios):',
-    aisle_label_initial:'Pasillo: elige uno arriba',
+    aisle_hint:'Toca un género para excluirlo (puedes marcar varios):',
+    aisle_label_initial:'Género: elige uno arriba',
     aisle_all:'todos los géneros', aisle_all_but:'todos menos',
-    empty_initial:'Elige tus plataformas y tu pasillo, y dale al play.',
-    empty_no_platform:'Marca al menos una plataforma para poder entrar al pasillo.',
-    empty_shelf:'Nada por aquí — no hay nada disponible ahora mismo con estos filtros. Prueba otra plataforma o pasillo.',
-    entering_aisle:'Entrando al pasillo...',
+    empty_initial:'Elige tus plataformas y un género, y dale al play.',
+    empty_no_platform:'Marca al menos una plataforma para poder darle al play.',
+    empty_shelf:'Nada por aquí — no hay nada disponible ahora mismo con estos filtros. Prueba otra plataforma o género.',
+    entering_aisle:'Sintonizando...',
     btn_spin:'&#9654; PLAY',
     footnote:'Datos de disponibilidad proporcionados por JustWatch a través de la API de TMDB.<br>Este producto usa la API de TMDB pero no está respaldado ni certificado por TMDB.',
     all_genres:'Todos los géneros', without_prefix:'Sin ',
@@ -630,13 +677,13 @@ const I18N = {
     panel_platforms:'My platforms', loading_platforms:'Loading platforms...',
     panel_search:'What to look for', clear_filters:'Clear filters', type_label:'Type',
     type_movie:'Movie', type_tv:'Series', type_any:'Either',
-    aisle_hint:'Tap an aisle to exclude it (you can pick several):',
-    aisle_label_initial:'Aisle: pick one above',
+    aisle_hint:'Tap a genre to exclude it (you can pick several):',
+    aisle_label_initial:'Genre: pick one above',
     aisle_all:'every genre', aisle_all_but:'everything but',
     empty_initial:'Pick your platforms and your aisle, then hit play.',
-    empty_no_platform:'Check at least one platform to enter the aisle.',
-    empty_shelf:'Nothing here — nothing available right now with these filters. Try another platform or aisle.',
-    entering_aisle:'Walking into the aisle...',
+    empty_no_platform:'Check at least one platform to hit play.',
+    empty_shelf:'Nothing here — nothing available right now with these filters. Try another platform or genre.',
+    entering_aisle:'Tuning in...',
     btn_spin:'&#9654; PLAY',
     footnote:'Availability data provided by JustWatch via the TMDB API.<br>This product uses the TMDB API but is not endorsed or certified by TMDB.',
     all_genres:'Every genre', without_prefix:'No ',
@@ -935,12 +982,14 @@ function renderProviderChips(){
   if(saved.active) activeProviders = new Set(saved.active.filter(k => providers[k]));
   else found.forEach(t => activeProviders.add(t.key));
 
-  box.innerHTML = found.map((t,i) => {
+  box.innerHTML = `<div class="keypad">` + found.map((t,i) => {
     const p = providers[t.key];
     const active = activeProviders.has(t.key);
     const logo = p.logoPath ? `<img src="${IMG_BASE}w45${p.logoPath}" alt="">` : '';
-    return `<div class="chip ${active?'active':''}" data-key="${t.key}" onclick="toggleProvider('${t.key}')"><span class="chip-num">${i+1}</span>${logo}${t.label}</div>`;
-  }).join('');
+    return `<div class="keypad-btn ${active?'active':''}" data-key="${t.key}" onclick="toggleProvider('${t.key}')">
+      <span class="keypad-num">${i+1}</span>${logo}<span class="keypad-label">${t.label}</span>
+    </div>`;
+  }).join('') + `</div>`;
   updateRemoteDisplay();
 }
 
@@ -957,10 +1006,10 @@ function updateRemoteDisplay(){
   if(!disp) return;
   const count = activeProviders.size;
   const label = document.getElementById('aisle-label');
-  disp.textContent = `CH: ${count} · ${label ? label.textContent.replace(/^(Pasillo|Aisle): /,'') : ''}`;
+  disp.textContent = `CH: ${count} · ${label ? label.textContent.replace(/^(Género|Genre): /,'') : ''}`;
 }
 
-// ---------- Pasillos (géneros): por defecto se busca en TODOS, tocas uno para EXCLUIRLO ----------
+// ---------- Géneros: por defecto se busca en TODOS, tocas uno para EXCLUIRLO ----------
 const AISLES = [
   { icon:'\uD83C\uDF83', label:'Terror',       match:['terror','horror'] },
   { icon:'\uD83D\uDE02', label:'Comedia',      match:['comedia','comedy'] },
@@ -1001,9 +1050,9 @@ function renderAisleChips(){
 
 function updateAisleLabel(){
   const label = document.getElementById('aisle-label');
-  if(!excludedAisles.size){ label.textContent = `${uiSettings.lang==='en' ? 'Aisle' : 'Pasillo'}: ${t('aisle_all')}`; updateRemoteDisplay(); return; }
+  if(!excludedAisles.size){ label.textContent = `${uiSettings.lang==='en' ? 'Genre' : 'Género'}: ${t('aisle_all')}`; updateRemoteDisplay(); return; }
   const names = [...excludedAisles].sort().map(i => aisleLabel(i));
-  label.textContent = `${uiSettings.lang==='en' ? 'Aisle' : 'Pasillo'}: ${t('aisle_all_but')} ${names.join(', ')}`;
+  label.textContent = `${uiSettings.lang==='en' ? 'Genre' : 'Género'}: ${t('aisle_all_but')} ${names.join(', ')}`;
   updateRemoteDisplay();
 }
 
